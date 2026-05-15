@@ -24,8 +24,8 @@ dist-ssr
 *.sw?
 
 # Security & Keys
-.env
-.env.local
+**/.env
+**/.env.local
 
 # Dependencies
-node_modules/
+**/node_modules/
