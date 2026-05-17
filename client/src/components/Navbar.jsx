@@ -4,11 +4,11 @@ import logo from "../assets/HavenFalls-logo.png";
 import { FiSearch, FiUser, FiShoppingBag, FiMenu, FiX } from "react-icons/fi";
 import { TbCampfire } from "react-icons/tb";
 
-const Navbar = ({ kitItems = [], campfireList = [] }) => {
+const Navbar = ({ kitItems = [], campfireList = [], closeToast }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
   const location = useLocation();
-  const navRef = useRef(null); 
+  const navRef = useRef(null); // 1. Added physical anchor link
 
   const isLoggedIn = !!localStorage.getItem("havenToken");
   const profileRoute = isLoggedIn ? "/account" : "/login";
@@ -20,22 +20,26 @@ const Navbar = ({ kitItems = [], campfireList = [] }) => {
     { name: "Contact", path: "/contact" },
   ];
 
+
+const currentPath = useRef(location.pathname);
   useEffect(() => {
-    setIsMobileMenuOpen(false);
-  }, [location.pathname]);
+    if (currentPath.current !== location.pathname) {
+      if (closeToast) closeToast();
+      setIsMobileMenuOpen(false);
+      currentPath.current = location.pathname; 
+    }
+  }, [location.pathname, closeToast]);
 
-
+  // 3. Click-Away Listener: Closes mobile menu when clicking outside navbar boundary
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (navRef.current && !navRef.current.contains(event.target)) {
         setIsMobileMenuOpen(false);
       }
     };
-
     if (isMobileMenuOpen) {
       document.addEventListener("mousedown", handleClickOutside);
     }
-
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
@@ -77,7 +81,11 @@ const Navbar = ({ kitItems = [], campfireList = [] }) => {
 
         <div
           className="mobile-toggle"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          onClick={() => {
+            const nextState = !isMobileMenuOpen;
+            setIsMobileMenuOpen(nextState);
+            if (nextState && closeToast) closeToast(); // 4. Clear toast if menu is opening
+          }}
         >
           {isMobileMenuOpen ? (
             <FiX className="nav-icon" />
@@ -90,13 +98,17 @@ const Navbar = ({ kitItems = [], campfireList = [] }) => {
       {/* MOBILE DROPDOWN MENU */}
       <div className={isMobileMenuOpen ? "mobile-menu open" : "mobile-menu"}>
         {navLinks.map((item) => (
-          <Link key={item.name} to={item.path}>
+          <Link
+            key={item.name}
+            to={item.path}
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
             {item.name}
           </Link>
         ))}
 
         <hr />
-        <Link to={profileRoute} className="mobile-profile-link">
+        <Link to={profileRoute} className="mobile-profile-link" onClick={() => setIsMobileMenuOpen(false)}>
           <FiUser /> <span>Profile</span>
         </Link>
       </div>

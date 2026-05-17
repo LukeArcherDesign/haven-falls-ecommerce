@@ -77,7 +77,6 @@ const App = () => {
 
   const addToKit = (product) => {
     setKitItems((prevItems) => {
-      // Check if item exists 
       const existingItem = prevItems.find((item) => item.id === product.id);
       
       if (existingItem) {
@@ -116,8 +115,7 @@ const App = () => {
 
   const toggleCampfire = (product) => {
     setCampfireList((prevList) => {
-      // Check if already in list
-      const exists = prevList.find((item) => item.id === product.id);
+      const exists = prevList.find((item) => item.id !== product.id);
       if (exists) {
         return prevList.filter((item) => item.id !== product.id);
       }
@@ -127,7 +125,11 @@ const App = () => {
 
   return (
     <Router>
-      <Navbar kitItems={kitItems} campfireList={campfireList} />
+      <Navbar 
+        kitItems={kitItems} 
+        campfireList={campfireList} 
+        closeToast={() => setAddedProduct(null)} 
+      />
       <Toast key={toastKey} product={addedProduct} />
       <Routes>
         <Route path="/" element={<Home />} />
