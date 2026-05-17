@@ -901,13 +901,16 @@ body {
 .search-input {
   width: 100%;
   max-width: 400px;
-  padding: 12px 20px;
+  padding: 16px 20px !important; 
+  font-size: 16px !important; 
   border: 2px solid #eee;
   border-radius: 8px;
-  font-size: 1rem;
   outline: none;
   background-color: #fff;
   transition: border-color 0.3s ease, box-shadow 0.3s ease; 
+  -webkit-appearance: none; 
+  appearance: none; 
+  box-sizing: border-box; 
 }
 
 
