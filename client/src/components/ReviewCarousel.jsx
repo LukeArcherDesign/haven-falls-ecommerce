@@ -35,10 +35,21 @@ const ReviewCarousel = ({ reviews }) => {
             </div>
 
             <div className="author-block">
-              <div className="profile-placeholder">
-                <div className="head"></div>
-                <div className="body"></div>
-              </div>
+              
+              {review.useDynamicAvatar ? (
+                <img 
+                  src={`https://ui-avatars.com/api/?name=${encodeURIComponent(review.author)}&background=FF9169&color=fff&size=50&rounded=true&bold=true`}
+                  alt={`${review.author} profile`} 
+                  className="reviewer-avatar" 
+                />
+              ) : (
+                <div className="profile-placeholder">
+                  <div className="head"></div>
+                  <div className="body"></div>
+                </div>
+              )}
+              {/* ------------------------------------ */}
+
               <div className="author-text">
                 <h4 className="review-author">{review.author}</h4>
                 <span className="review-date">{review.date}</span>
