@@ -2,9 +2,19 @@ import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import Hero from "../components/Hero";
 import ReviewCarousel from "../components/ReviewCarousel";
-import { customerReviews } from '../data/reviewsData';
+import { customerReviews } from "../data/reviewsData";
 
-import { FaShippingFast, FaLeaf, FaHeadset } from "react-icons/fa";
+import {
+  FaShippingFast,
+  FaLeaf,
+  FaHeadset,
+  FaMountain,
+  FaWind,
+  FaDumbbell,
+  FaCompass,
+  FaCompressAlt,
+  FaTools,
+} from "react-icons/fa";
 import campingImg from "../assets/camping.png";
 import apparelImg from "../assets/apparel.png";
 import accessoriesImg from "../assets/accessories.png";
@@ -15,18 +25,28 @@ import storyImg3 from "../assets/our-story-3.jpg";
 
 const categorySlides = [
   {
-    title: "Camping Gear",
+    title: "Tents",
     description:
-      "Built for the elements. High-performance tents, sleeping bags, and equipment to keep you secure in the wild.",
-    buttonText: "Shop Camping",
-    image: campingImg, 
+      "Built for the elements. High-performance tents designed for both comfort and durability.",
+    buttonText: "Shop Tents",
+    image: campingImg,
+    features: [
+      { icon: FaLeaf, text: "Weatherproof" },
+      { icon: FaShippingFast, text: "Ultra-Light" },
+      { icon: FaHeadset, text: "Lifetime Warranty" },
+    ],
   },
   {
-    title: "Apparel",
+    title: "Exercise",
     description:
-      "Engineered for movement. Breathable, weather-resistant clothing for any altitude.",
-    buttonText: "Shop Apparel",
+      "Engineered for extreme terrain. Made from high quality, long lasting materials to help you reach your peak performance.",
+    buttonText: "Shop Exercise",
     image: apparelImg,
+    features: [
+      { icon: FaMountain, text: "All-Terrain" },
+      { icon: FaWind, text: "Weather Resistant" },
+      { icon: FaDumbbell, text: "Heavy-Duty" },
+    ],
   },
   {
     title: "Accessories",
@@ -34,6 +54,11 @@ const categorySlides = [
       "The essential tools of the trade. Hydration packs, navigation gear, and survival kits.",
     buttonText: "Shop Accessories",
     image: accessoriesImg,
+    features: [
+      { icon: FaCompass, text: "Precision" },
+      { icon: FaCompressAlt, text: "Compact" },
+      { icon: FaTools, text: "Versatile" },
+    ],
   },
 ];
 
@@ -66,10 +91,10 @@ const Home = () => {
 
   const handleDotClick = (index) => {
     setActiveSlide(index);
-    imageRefs.current[index]?.scrollIntoView({ 
+    imageRefs.current[index]?.scrollIntoView({
       behavior: "smooth",
-      block: "nearest", 
-      inline: "center" 
+      block: "nearest",
+      inline: "center",
     });
   };
 
@@ -104,9 +129,21 @@ const Home = () => {
           </div>
 
           <div className="story-image-row">
-            <img src={storyImg1} alt="Haven Falls Origin" className="story-image" />
-            <img src={storyImg2} alt="Haven Falls Gear Quality" className="story-image" />
-            <img src={storyImg3} alt="Haven Falls Summit Deployment" className="story-image" />
+            <img
+              src={storyImg1}
+              alt="Haven Falls Origin"
+              className="story-image"
+            />
+            <img
+              src={storyImg2}
+              alt="Haven Falls Gear Quality"
+              className="story-image"
+            />
+            <img
+              src={storyImg3}
+              alt="Haven Falls Summit Deployment"
+              className="story-image"
+            />
           </div>
         </div>
       </section>
@@ -122,20 +159,17 @@ const Home = () => {
           </div>
 
           <div className="category-icon-grid">
-            <div className="icon-wrapper">
-              <FaLeaf className="slider-icon" />
-              <p>Weatherproof</p>
-            </div>
+            {categorySlides[activeSlide].features.map((feature, index) => {
+              // React requires component variables to start with a capital letter
+              const IconComponent = feature.icon;
 
-            <div className="icon-wrapper">
-              <FaShippingFast className="slider-icon" />
-              <p>Ultra-Light</p>
-            </div>
-
-            <div className="icon-wrapper">
-              <FaHeadset className="slider-icon" />
-              <p>Lifetime Warranty</p>
-            </div>
+              return (
+                <div key={index} className="icon-wrapper">
+                  <IconComponent className="slider-icon" />
+                  <p>{feature.text}</p>
+                </div>
+              );
+            })}
           </div>
 
           <Link to="/shop" className="secondary-button">
@@ -148,7 +182,7 @@ const Home = () => {
               <div
                 key={index}
                 className={`nav-dot ${activeSlide === index ? "active" : ""}`}
-                onClick={() => handleDotClick(index)} 
+                onClick={() => handleDotClick(index)}
               ></div>
             ))}
           </div>
