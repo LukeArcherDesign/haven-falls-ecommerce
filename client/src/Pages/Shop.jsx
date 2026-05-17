@@ -53,12 +53,14 @@ const Shop = ({ addToKit, toggleCampfire, campfireList = [] }) => {
   if (isLoading) {
     return (
       <div className="shop-wrapper">
-        <div
-          className="about-topo-header"
-          style={{ backgroundImage: `url(${bannerImage})` }}
-        >
+      <div 
+        className="image-banner-wrapper"
+        style={{ backgroundImage: `url(${bannerImage})` }}
+      >
+        <div className="trapeze-header">
           <h1>Field Equipment</h1>
         </div>
+      </div>
         <div
           className="shop-grid"
           style={{ textAlign: "center", padding: "100px" }}
@@ -71,11 +73,13 @@ const Shop = ({ addToKit, toggleCampfire, campfireList = [] }) => {
 
   return (
     <div className="shop-wrapper">
-      <div
-        className="about-topo-header"
+      <div 
+        className="image-banner-wrapper"
         style={{ backgroundImage: `url(${bannerImage})` }}
       >
-        <h1>Field Equipment</h1>
+        <div className="trapeze-header">
+          <h1>Field Equipment</h1>
+        </div>
       </div>
 
       <div className="shop-control-panel">

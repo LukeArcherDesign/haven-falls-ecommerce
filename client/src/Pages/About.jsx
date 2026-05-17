@@ -4,11 +4,13 @@ import bannerImage from '../assets/banner-background.jpg';
 const About = () => {
   return (
     <div className="about-wrapper">
-    <div 
-        className="about-topo-header" 
+      <div 
+        className="image-banner-wrapper"
         style={{ backgroundImage: `url(${bannerImage})` }}
       >
-        <h1>Engineered for the Elements</h1>
+        <div className="trapeze-header">
+          <h1>Engineered for the Elements</h1>
+        </div>
       </div>
 
       <div className="about-content-split">

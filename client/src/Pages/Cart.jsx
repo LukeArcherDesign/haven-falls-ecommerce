@@ -7,7 +7,7 @@ const Cart = ({ kitItems, updateQuantity }) => {
     <div className="cart-wrapper">
       
       {/* Tent Header */}
-      <div className="cart-header-accent">
+      <div className="trapeze-header">
         <h1>Your Field Kit</h1>
       </div>
       
