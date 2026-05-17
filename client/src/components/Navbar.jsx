@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import logo from "../assets/HavenFalls-logo.png";
 import { FiSearch, FiUser, FiShoppingBag, FiMenu, FiX } from "react-icons/fi";
@@ -8,6 +8,8 @@ const Navbar = ({ kitItems = [], campfireList = [] }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
   const location = useLocation();
+  const navRef = useRef(null); 
+
   const isLoggedIn = !!localStorage.getItem("havenToken");
   const profileRoute = isLoggedIn ? "/account" : "/login";
 
@@ -18,8 +20,29 @@ const Navbar = ({ kitItems = [], campfireList = [] }) => {
     { name: "Contact", path: "/contact" },
   ];
 
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [location.pathname]);
+
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (navRef.current && !navRef.current.contains(event.target)) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    if (isMobileMenuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isMobileMenuOpen]);
+
   return (
-    <nav className="navbar">
+    <nav className="navbar" ref={navRef}>
       <Link to="/" className="logo">
         <img src={logo} alt="Haven Falls Logo" className="logo-img" />
       </Link>
@@ -67,17 +90,13 @@ const Navbar = ({ kitItems = [], campfireList = [] }) => {
       {/* MOBILE DROPDOWN MENU */}
       <div className={isMobileMenuOpen ? "mobile-menu open" : "mobile-menu"}>
         {navLinks.map((item) => (
-          <Link
-            key={item.name}
-            to={item.path}
-            onClick={() => setIsMobileMenuOpen(false)}
-          >
+          <Link key={item.name} to={item.path}>
             {item.name}
           </Link>
         ))}
 
         <hr />
-        <Link to={profileRoute} className="mobile-profile-link" onClick={() => setIsMobileMenuOpen(false)}>
+        <Link to={profileRoute} className="mobile-profile-link">
           <FiUser /> <span>Profile</span>
         </Link>
       </div>
