@@ -1789,8 +1789,9 @@ body {
 /* Core PDP Layout */
 .pdp-layout {
   display: flex;
-  flex-wrap: wrap; /* stacking on mobile screen */
+  flex-wrap: wrap; 
   gap: 50px;
+  align-items: center; 
   background-color: white;
   border-radius: 8px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.05);
@@ -1806,13 +1807,14 @@ body {
   align-items: center;
   justify-content: center;
   padding: 40px;
+  box-sizing: border-box;
 }
 
 .pdp-image-container img {
   width: 100%;
   max-width: 500px;
   height: auto;
-  object-fit: cover;
+  margin: 0 auto; 
   border-radius: 8px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.1);
   transition: transform 0.3s ease;
