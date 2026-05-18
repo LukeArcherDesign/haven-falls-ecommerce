@@ -119,7 +119,7 @@ const App = () => {
 
   const toggleCampfire = (product) => {
     setCampfireList((prevList) => {
-      const exists = prevList.find((item) => item.id !== product.id);
+      const exists = prevList.find((item) => item.id === product.id);
       if (exists) {
         return prevList.filter((item) => item.id !== product.id);
       }
