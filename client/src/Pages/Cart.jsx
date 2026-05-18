@@ -1,7 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react'; 
+import { FiTrash2 } from 'react-icons/fi'; 
 
-const Cart = ({ kitItems, updateQuantity }) => {
+const Cart = ({ kitItems, updateQuantity, removeFromKit }) => { 
   const total = kitItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+  const [deletingId, setDeletingId] = useState(null);
+
+  const handleDeleteClick = (id) => {
+    setDeletingId(id); 
+
+    setTimeout(() => {
+      removeFromKit(id);
+      setDeletingId(null); 
+    }, 400);
+  };
 
   return (
     <div className="cart-wrapper">
@@ -18,8 +30,11 @@ const Cart = ({ kitItems, updateQuantity }) => {
           
           {/* Itemized List */}
           <div className="cart-items-list">
-            {kitItems.map((item, index) => (
-              <div key={index} className="cart-item-row">
+            {kitItems.map((item) => ( 
+              <div 
+                key={item.id} 
+                className={`cart-item-row ${deletingId === item.id ? 'deleting' : ''}`}
+              >
                 {/* DATABASE SYNC */}
                 <img src={`http://localhost:5001${item.image[0]}`} alt={item.name} className="cart-item-img" />
                 <div className="cart-item-details">
@@ -32,6 +47,7 @@ const Cart = ({ kitItems, updateQuantity }) => {
                   <button 
                     className="qty-btn" 
                     onClick={() => updateQuantity(item.id, -1)}
+                    style={{ visibility: item.quantity > 1 ? 'visible' : 'hidden' }} // 3. Smart hiding mechanic
                   >-</button>
                   
                   <span className="qty-number">{item.quantity}</span>
@@ -46,6 +62,16 @@ const Cart = ({ kitItems, updateQuantity }) => {
                 <div className="cart-item-total">
                   £{(item.price * item.quantity).toFixed(2)}
                 </div>
+
+                {/* 4. The Eraser Trigger Button */}
+                <button 
+                  className="cart-delete-btn" 
+                  onClick={() => handleDeleteClick(item.id)} // Pointed to our delayed transition function
+                  title="Remove item from kit"
+                  disabled={deletingId !== null} // Locks interaction during active layout collapse
+                >
+                  <FiTrash2 />
+                </button>
               </div>
             ))}
           </div>

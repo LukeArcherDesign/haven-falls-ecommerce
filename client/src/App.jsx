@@ -113,6 +113,10 @@ const App = () => {
     );
   };
 
+  const removeFromKit = (id) => {
+    setKitItems((prevItems) => prevItems.filter((item) => item.id !== id));
+  };
+
   const toggleCampfire = (product) => {
     setCampfireList((prevList) => {
       const exists = prevList.find((item) => item.id !== product.id);
@@ -150,7 +154,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/account" element={<Account kitItems={kitItems} campfireList={campfireList} />} />
-        <Route path="/cart" element={<Cart kitItems={kitItems} updateQuantity={updateQuantity} />} />
+        <Route path="/cart" element={<Cart kitItems={kitItems} updateQuantity={updateQuantity} removeFromKit={removeFromKit} />} />
       </Routes>
       <Footer />
     </Router>
