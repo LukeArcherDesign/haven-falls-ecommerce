@@ -35,7 +35,7 @@ router.post("/register", async (req, res) => {
     const token = jwt.sign(
       { id: newUser._id },
       process.env.JWT_SECRET,
-      { expiresIn: "7d" }, // Keeps them logged in for 7 days
+      { expiresIn: "1h" }, // Keeps them logged in for 7 days
     );
 
     // Send the token and user data back to React frontend
