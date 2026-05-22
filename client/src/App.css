@@ -2207,6 +2207,120 @@ body {
   margin-top: 40px;
 }
 
+/* --- PROFILE SETTINGS --- */
+.settings-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.settings-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+  align-items: center;
+  animation: slideDown 0.3s ease-out forwards;
+  transform-origin: top;
+}
+
+.settings-input {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-family: inherit;
+}
+
+.settings-button {
+  padding: 8px 12px;
+  background-color: #ff9169;
+  color: #111;
+  border: none;
+  border-radius: 4px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.settings-button:hover {
+  opacity: 0.8;
+}
+
+.settings-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.status-message {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-top: 5px;
+}
+
+.status-message.success {
+  color: #2e7d32;
+}
+
+.status-message.error {
+  color: #d32f2f;
+}
+
+.settings-display {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.current-name-display {
+  font-size: 1.05rem;
+  color: #333;
+}
+
+.reveal-form-btn {
+  background: none;
+  border: 1px solid #ff9169;
+  color: #ff9169;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.reveal-form-btn:hover {
+  background: #ff9169;
+  color: #111;
+}
+
+.settings-button-row {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  width: 100%;
+}
+
+.settings-button.cancel-btn {
+  background-color: #eee;
+  color: #333;
+}
+
+.settings-button.cancel-btn:hover {
+  background-color: #ddd;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* ---------------------------- TRAPEZE HEADERS ---------------------------- */
 
 .trapeze-header {

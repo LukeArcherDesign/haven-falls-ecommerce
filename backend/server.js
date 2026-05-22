@@ -4,7 +4,7 @@ const mongoose = require("mongoose"); // Database translator
 require("dotenv").config();
 const Item = require("./models/Item");
 const path = require("path");
-const authRoutes = require('./auth'); 
+const authRoutes = require("./auth");
 
 const Contact = require("./models/Contact");
 
@@ -14,7 +14,7 @@ const app = express();
 app.use(
   cors({
     origin: ["http://localhost:5173", "http://127.0.0.1:5173"],
-    methods: ["GET", "POST"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   }),
 );
@@ -108,10 +108,10 @@ app.post("/api/contact", async (req, res) => {
 
 /* ---------------------------- DEPLOYMENT MIDDLEWARE ---------------------------- */
 
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../client/dist')));
-  app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../client', 'dist', 'index.html'));
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../client/dist")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "../client", "dist", "index.html"));
   });
 }
 

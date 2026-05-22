@@ -161,4 +161,87 @@ router.get("/campfire/sync", async (req, res) => {
   }
 });
 
+/* ---------------------------- UPDATE USERNAME ROUTE ---------------------------- */
+router.put("/profile/name", async (req, res) => {
+  try {
+    // 1. Verify the VIP Wristband (Security Gate)
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res
+        .status(401)
+        .json({ message: "Access denied. No valid wristband." });
+    }
+
+    const token = authHeader.split(" ")[1];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    // 2. Extract the new name from the React frontend payload
+    const { newName } = req.body;
+
+    // Safety check: Prevent empty names
+    if (!newName || newName.trim() === "") {
+      return res.status(400).json({ message: "Username cannot be empty." });
+    }
+
+    // 3. Find the user and execute the Update
+    const updatedUser = await User.findByIdAndUpdate(
+      decoded.id,
+      { name: newName },
+      { new: true }, // CRITICAL: Forces MongoDB to return the newly updated data, not the old data
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: "Adventurer not found." });
+    }
+
+    // 4. Send the updated data back to React so the UI changes instantly
+    res.status(200).json({
+      message: "Username successfully updated.",
+      user: {
+        id: updatedUser._id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+      },
+    });
+  } catch (error) {
+    console.error("Profile update error:", error);
+    res
+      .status(500)
+      .json({ message: "Server encountered a storm during update." });
+  }
+});
+
+/* ---------------------------- RETRIEVE PROFILE ROUTE ---------------------------- */
+router.get("/profile", async (req, res) => {
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res
+        .status(401)
+        .json({ message: "Access denied. No valid wristband." });
+    }
+
+    const token = authHeader.split(" ")[1];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    const user = await User.findById(decoded.id);
+    if (!user) {
+      return res.status(404).json({ message: "Adventurer not found." });
+    }
+
+    res.status(200).json({
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+      },
+    });
+  } catch (error) {
+    console.error("Profile retrieval error:", error);
+    res
+      .status(401)
+      .json({ message: "Server storm: Invalid or expired wristband." });
+  }
+});
+
 module.exports = router;
