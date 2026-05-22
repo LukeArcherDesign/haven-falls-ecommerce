@@ -1,31 +1,37 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 // Inventory Blueprint
 const itemSchema = new mongoose.Schema({
-  id: { 
-    type: String, 
-    required: true // Keep custom string IDs (e.g., 'fire-starter') for routing
+  id: {
+    type: String,
+    required: true,
   },
-  name: { 
-    type: String, 
-    required: true 
+  name: {
+    type: String,
+    required: true,
   },
-  price: { 
+  price: {
     type: Number, // Stored as strict Number so the server can calculate totals later
-    required: true 
+    required: true,
   },
-  image: [{ 
-    type: String, 
-    required: true 
-  }],
-  category: { 
-    type: String, 
-    required: true 
+  stock: {
+    type: Number, // Injects our new inventory tracking integer
+    required: true,
   },
-  description: { 
-    type: String, 
-    required: true 
-  }
+  image: [
+    {
+      type: String,
+      required: true,
+    },
+  ],
+  category: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
 });
 
-module.exports = mongoose.model('Item', itemSchema);
+module.exports = mongoose.model("Item", itemSchema);

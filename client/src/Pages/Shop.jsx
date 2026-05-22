@@ -5,16 +5,14 @@ import { Link } from "react-router-dom";
 import bannerImage from "../assets/banner-background.jpg";
 
 const Shop = ({ addToKit, toggleCampfire, campfireList = [] }) => {
-  // Database State Management ---
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
   const [sortOrder, setSortOrder] = useState("default");
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false); 
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  // React Effect
   useEffect(() => {
     const fetchInventory = async () => {
       try {
@@ -31,7 +29,6 @@ const Shop = ({ addToKit, toggleCampfire, campfireList = [] }) => {
     fetchInventory();
   }, []);
 
-  // Extract categories from database
   const categories = ["All", ...new Set(products.map((item) => item.category))];
 
   const filteredProducts = products
@@ -49,18 +46,17 @@ const Shop = ({ addToKit, toggleCampfire, campfireList = [] }) => {
       return 0;
     });
 
-  // Loading Guard
   if (isLoading) {
     return (
       <div className="shop-wrapper">
-      <div 
-        className="image-banner-wrapper"
-        style={{ backgroundImage: `url(${bannerImage})` }}
-      >
-        <div className="trapeze-header">
-          <h1>Field Equipment</h1>
+        <div
+          className="image-banner-wrapper"
+          style={{ backgroundImage: `url(${bannerImage})` }}
+        >
+          <div className="trapeze-header">
+            <h1>Field Equipment</h1>
+          </div>
         </div>
-      </div>
         <div
           className="shop-grid"
           style={{ textAlign: "center", padding: "100px" }}
@@ -73,7 +69,7 @@ const Shop = ({ addToKit, toggleCampfire, campfireList = [] }) => {
 
   return (
     <div className="shop-wrapper">
-      <div 
+      <div
         className="image-banner-wrapper"
         style={{ backgroundImage: `url(${bannerImage})` }}
       >
@@ -95,8 +91,7 @@ const Shop = ({ addToKit, toggleCampfire, campfireList = [] }) => {
           ))}
         </div>
 
-        {/* Search Bar */}
-       <div className="search-and-sort-row">
+        <div className="search-and-sort-row">
           <input
             type="text"
             placeholder="Search field equipment..."
@@ -104,37 +99,47 @@ const Shop = ({ addToKit, toggleCampfire, campfireList = [] }) => {
             onChange={(e) => setSearchQuery(e.target.value)}
             className="search-input"
           />
-        {/* Filter */}
           <div className="custom-dropdown-container">
-            <div 
+            <div
               className="search-input dropdown-trigger"
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             >
               <span>
-                {sortOrder === "default" ? "Sort by Price..." : 
-                 sortOrder === "low-high" ? "Price: Low to High" : 
-                 "Price: High to Low"}
+                {sortOrder === "default"
+                  ? "Sort by Price..."
+                  : sortOrder === "low-high"
+                    ? "Price: Low to High"
+                    : "Price: High to Low"}
               </span>
               <span className="dropdown-arrow">▼</span>
             </div>
 
             {isDropdownOpen && (
               <div className="custom-dropdown-menu">
-                <div 
-                  className="dropdown-option" 
-                  onClick={() => { setSortOrder("default"); setIsDropdownOpen(false); }}
+                <div
+                  className="dropdown-option"
+                  onClick={() => {
+                    setSortOrder("default");
+                    setIsDropdownOpen(false);
+                  }}
                 >
                   Default Sorting
                 </div>
-                <div 
-                  className="dropdown-option" 
-                  onClick={() => { setSortOrder("low-high"); setIsDropdownOpen(false); }}
+                <div
+                  className="dropdown-option"
+                  onClick={() => {
+                    setSortOrder("low-high");
+                    setIsDropdownOpen(false);
+                  }}
                 >
                   Price: Low to High
                 </div>
-                <div 
-                  className="dropdown-option" 
-                  onClick={() => { setSortOrder("high-low"); setIsDropdownOpen(false); }}
+                <div
+                  className="dropdown-option"
+                  onClick={() => {
+                    setSortOrder("high-low");
+                    setIsDropdownOpen(false);
+                  }}
                 >
                   Price: High to Low
                 </div>
@@ -146,7 +151,6 @@ const Shop = ({ addToKit, toggleCampfire, campfireList = [] }) => {
 
       <div className="shop-grid">
         {filteredProducts.map((item) => {
-          // Check if item exists in the array
           const isLit = campfireList.some(
             (savedItem) => savedItem.id === item.id,
           );
@@ -154,15 +158,22 @@ const Shop = ({ addToKit, toggleCampfire, campfireList = [] }) => {
           return (
             <div key={item.id} className="shop-item-card">
               <div className="item-main-content">
-                {/* Image Link */}
+                {/* Image Link with Scarcity Anchors */}
                 <Link to={`/shop/${item.id}`} className="product-portal-link">
+                  {/* Smart Scarcity Tags */}
+                  {item.stock <= 5 && item.stock > 0 && (
+                    <div className="scarcity-tag">Only {item.stock} left!</div>
+                  )}
+                  {item.stock === 0 && (
+                    <div className="scarcity-tag sold-out">Sold Out</div>
+                  )}
+
                   <img
                     src={`http://localhost:5001${item.image[0]}`}
                     alt={item.name}
                   />
                 </Link>
 
-                {/* Title */}
                 <Link to={`/shop/${item.id}`} className="product-portal-link">
                   <h3>{item.name}</h3>
                 </Link>
@@ -175,8 +186,9 @@ const Shop = ({ addToKit, toggleCampfire, campfireList = [] }) => {
                 <button
                   className="add-to-kit-btn"
                   onClick={() => addToKit(item)}
+                  disabled={item.stock === 0} // Hardware lock to prevent ghost orders
                 >
-                  Add to Kit
+                  {item.stock === 0 ? "Unavailable" : "Add to Kit"}
                 </button>
                 <button
                   className={`campfire-btn ${isLit ? "lit" : ""}`}

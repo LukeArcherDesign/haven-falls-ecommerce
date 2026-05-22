@@ -1215,6 +1215,41 @@ body {
   }
 }
 
+/* ---------------------------- LOW STOCK SCARCITY UI ---------------------------- */
+.product-portal-link {
+  display: block;
+  position: relative; /* Acts as the absolute anchor box for the scarcity tag */
+}
+
+.scarcity-tag {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background-color: #ff9169;
+  color: #111;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 4px;
+  z-index: 2; /* Forces the tag to render physically above the image */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  pointer-events: none; /* Prevents the tag from intercepting the link click */
+}
+
+.scarcity-tag.sold-out {
+  background-color: #333;
+  color: #fff;
+}
+
+/* Disabled state styling for the Add to Kit button */
+.add-to-kit-btn:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+  border-color: #ccc;
+  opacity: 0.7;
+}
+
 /* ---------------------------------------------------------------------------- */
 /* ---------------------------- TOAST NOTIFICATION ---------------------------- */
 /* ---------------------------------------------------------------------------- */
@@ -1317,10 +1352,10 @@ body {
   padding: 15px;
   background-color: white;
   border: 1px solid #eee;
-  border-left: 6px solid #ff9169; 
+  border-left: 6px solid #ff9169;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  max-height: 200px; 
+  max-height: 200px;
   overflow: hidden;
 }
 
@@ -1472,10 +1507,11 @@ body {
 }
 
 .cart-item-row.deleting {
-  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-              opacity 0.4s ease, 
-              padding 0.4s ease, 
-              margin 0.4s ease;
+  transition:
+    max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.4s ease,
+    padding 0.4s ease,
+    margin 0.4s ease;
   opacity: 0;
   max-height: 0;
   padding-top: 0 !important;
