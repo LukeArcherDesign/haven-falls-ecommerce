@@ -1,14 +1,14 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import logo from "../assets/HavenFalls-logo.png";
-import { FiSearch, FiUser, FiShoppingBag, FiMenu, FiX } from "react-icons/fi";
+import { FiUser, FiShoppingBag, FiMenu, FiX } from "react-icons/fi";
 import { TbCampfire } from "react-icons/tb";
 
 const Navbar = ({ kitItems = [], campfireList = [], closeToast }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  
+
   const location = useLocation();
-  const navRef = useRef(null); // 1. Added physical anchor link
+  const navRef = useRef(null);
 
   const isLoggedIn = !!localStorage.getItem("havenToken");
   const profileRoute = isLoggedIn ? "/account" : "/login";
@@ -20,17 +20,15 @@ const Navbar = ({ kitItems = [], campfireList = [], closeToast }) => {
     { name: "Contact", path: "/contact" },
   ];
 
-
-const currentPath = useRef(location.pathname);
+  const currentPath = useRef(location.pathname);
   useEffect(() => {
     if (currentPath.current !== location.pathname) {
       if (closeToast) closeToast();
       setIsMobileMenuOpen(false);
-      currentPath.current = location.pathname; 
+      currentPath.current = location.pathname;
     }
   }, [location.pathname, closeToast]);
 
-  // 3. Click-Away Listener: Closes mobile menu when clicking outside navbar boundary
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (navRef.current && !navRef.current.contains(event.target)) {
@@ -46,69 +44,108 @@ const currentPath = useRef(location.pathname);
   }, [isMobileMenuOpen]);
 
   return (
-    <nav className="navbar" ref={navRef}>
-      <Link to="/" className="logo">
-        <img src={logo} alt="Haven Falls Logo" className="logo-img" />
+    <nav
+      className="flex justify-between items-center px-4 py-3 md:px-20 md:py-6 h-[60px] md:h-auto bg-[#183855] shadow-[0_4px_20px_rgba(0,0,0,0.3)] relative z-[100]"
+      ref={navRef}
+    >
+      {/* LOGO */}
+      <Link to="/" className="flex items-center">
+        <img
+          src={logo}
+          alt="Haven Falls Logo"
+          className="h-[35px] md:h-[65px] cursor-pointer transition-transform duration-300 ease-in-out hover:scale-105"
+        />
       </Link>
 
-      <div className="links">
+      {/* DESKTOP LINKS */}
+      <div className="hidden md:flex gap-8 text-white">
         {navLinks.map((menuItem) => (
-          <Link key={menuItem.name} to={menuItem.path}>
+          <Link
+            key={menuItem.name}
+            to={menuItem.path}
+            className="cursor-pointer transition-colors duration-300 ease hover:text-brandOrange flex items-center"
+          >
             {menuItem.name}
           </Link>
         ))}
       </div>
 
-      {/* NAVBAR ICONS*/}
-      <div className="actions">
-        <Link to="/campfire" className="cart-icon-container">
-          <TbCampfire className="nav-icon" />
+      {/* ACTIONS (ICONS) */}
+      <div className="flex gap-5 items-center">
+        {/* Campfire Icon */}
+        <Link
+          to="/campfire"
+          className="relative flex items-center cursor-pointer text-brandOrange"
+        >
+          <TbCampfire className="text-[1.4rem] transition-all duration-300 ease hover:scale-110 hover:drop-shadow-[0_0_8px_rgba(244,162,97,0.8)]" />
           {campfireList.length > 0 && (
-            <span className="cart-badge">{campfireList.length}</span>
+            <span className="absolute -bottom-1 -right-2 bg-brandOrange text-white text-[0.7rem] font-bold h-[18px] w-[18px] rounded-full flex justify-center items-center p-0">
+              {campfireList.length}
+            </span>
           )}
         </Link>
 
-        <Link to={profileRoute} className="desktop-only">
-          <FiUser className="nav-icon" />
+        {/* Profile Icon (Desktop Only) */}
+        <Link
+          to={profileRoute}
+          className="hidden md:flex items-center cursor-pointer text-brandOrange"
+        >
+          <FiUser className="text-[1.4rem] transition-all duration-300 ease hover:scale-110 hover:drop-shadow-[0_0_8px_rgba(244,162,97,0.8)]" />
         </Link>
 
-        <Link to="/cart" className="cart-icon-container">
-          <FiShoppingBag className="nav-icon" />
+        {/* Cart Icon */}
+        <Link
+          to="/cart"
+          className="relative flex items-center cursor-pointer text-brandOrange"
+        >
+          <FiShoppingBag className="text-[1.4rem] transition-all duration-300 ease hover:scale-110 hover:drop-shadow-[0_0_8px_rgba(244,162,97,0.8)]" />
           {kitItems.length > 0 && (
-            <span className="cart-badge">{kitItems.length}</span>
+            <span className="absolute -bottom-1 -right-2 bg-brandOrange text-white text-[0.7rem] font-bold h-[18px] w-[18px] rounded-full flex justify-center items-center p-0">
+              {kitItems.length}
+            </span>
           )}
         </Link>
 
-        <div
-          className="mobile-toggle"
+        {/* Mobile Toggle Button */}
+        <button
+          className="block md:hidden text-brandOrange cursor-pointer focus:outline-none"
           onClick={() => {
             const nextState = !isMobileMenuOpen;
             setIsMobileMenuOpen(nextState);
-            if (nextState && closeToast) closeToast(); // 4. Clear toast if menu is opening
+            if (nextState && closeToast) closeToast();
           }}
         >
           {isMobileMenuOpen ? (
-            <FiX className="nav-icon" />
+            <FiX className="text-[1.4rem] transition-all duration-300 ease hover:scale-110 hover:drop-shadow-[0_0_8px_rgba(244,162,97,0.8)]" />
           ) : (
-            <FiMenu className="nav-icon" />
+            <FiMenu className="text-[1.4rem] transition-all duration-300 ease hover:scale-110 hover:drop-shadow-[0_0_8px_rgba(244,162,97,0.8)]" />
           )}
-        </div>
+        </button>
       </div>
 
       {/* MOBILE DROPDOWN MENU */}
-      <div className={isMobileMenuOpen ? "mobile-menu open" : "mobile-menu"}>
+      <div
+        className={`fixed top-[60px] w-[250px] bg-[#183855] flex flex-col p-6 gap-6 shadow-[-4px_4px_15px_rgba(0,0,0,0.4)] z-[100] transition-[right] duration-[400ms] ease-in-out md:hidden ${
+          isMobileMenuOpen ? "right-0" : "-right-[250px]"
+        }`}
+      >
         {navLinks.map((item) => (
           <Link
             key={item.name}
             to={item.path}
             onClick={() => setIsMobileMenuOpen(false)}
+            className="text-white text-[1.2rem] flex items-center gap-[10px]"
           >
             {item.name}
           </Link>
         ))}
 
-        <hr />
-        <Link to={profileRoute} className="mobile-profile-link" onClick={() => setIsMobileMenuOpen(false)}>
+        <hr className="border-[rgba(255,145,105,0.3)] my-2" />
+        <Link
+          to={profileRoute}
+          className="flex items-center gap-[15px] text-white text-[1.2rem] no-underline"
+          onClick={() => setIsMobileMenuOpen(false)}
+        >
           <FiUser /> <span>Profile</span>
         </Link>
       </div>

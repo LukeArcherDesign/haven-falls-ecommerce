@@ -104,97 +104,114 @@ const Home = () => {
       <Hero />
 
       {/* ---------------------------- BRAND STORY ---------------------------- */}
-      <section className="our-story-background">
-        <div className="our-story-blue-box">
-          <div className="story-text-columns">
-            <div className="story-column">
-              <h2>Our Story</h2>
-              <p>
+      <section className="our-story-background py-[60px] px-[20px] flex justify-center">
+        <div className="bg-[#0b1120] text-white w-full max-w-[1200px] p-[50px] rounded-[15px]">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-[40px] mb-[50px]">
+            <div>
+              <h2 className="mt-0 text-[2.5rem] text-white font-bold">
+                Our Story
+              </h2>
+              <p className="leading-[1.6] text-[1.1rem]">
                 Founded on a passion for the great outdoors, Haven Falls is
                 dedicated to equipping your next adventure with sustainable,
                 high-quality gear.
               </p>
             </div>
 
-            <div className="story-column">
-              <p>
+            <div>
+              <p className="leading-[1.6] text-[1.1rem] mb-[20px]">
                 We believe that nature is for everyone. From the highest peaks
                 to the local trails, our mission is to provide gear that you can
                 rely on, no matter the conditions.
               </p>
-              <Link to="/about" className="secondary-button">
+              <Link
+                to="/about"
+                className="inline-block px-[20px] py-[10px] bg-brandOrange text-white font-bold rounded-[5px] hover:scale-105 transition-transform duration-200"
+              >
                 Read More
               </Link>
             </div>
           </div>
 
-          <div className="story-image-row">
+          <div className="flex flex-col md:flex-row gap-[20px] w-full">
             <img
               src={storyImg1}
               alt="Haven Falls Origin"
-              className="story-image"
+              className="flex-1 w-full h-[300px] object-cover rounded-[8px] min-w-0"
             />
             <img
               src={storyImg2}
               alt="Haven Falls Gear Quality"
-              className="story-image"
+              className="flex-1 w-full h-[300px] object-cover rounded-[8px] min-w-0"
             />
             <img
               src={storyImg3}
               alt="Haven Falls Summit Deployment"
-              className="story-image"
+              className="flex-1 w-full h-[300px] object-cover rounded-[8px] min-w-0"
             />
           </div>
         </div>
       </section>
 
       {/* ---------------------------- SHOP BY CATEGORY ---------------------------- */}
-      <section className="category-slider">
-        <div className="category-info-panel">
-          <span className="sub-heading">Category Spotlight</span>
+      <section className="flex flex-col md:flex-row md:h-[300vh] relative bg-white">
+        <div className="flex-1 sticky top-0 h-[40vh] md:h-[100vh] w-full flex flex-col justify-start md:justify-center px-[20px] pr-[60px] md:px-[10%] pt-[30px] md:pt-0 bg-white z-10 box-border">
+          <span className="text-[0.9rem] uppercase tracking-[2px] text-[#0b1120] mb-[10px]">
+            Category Spotlight
+          </span>
 
           <div key={activeSlide} className="fade-in-text">
-            <h2>{categorySlides[activeSlide].title}</h2>
-            <p>{categorySlides[activeSlide].description}</p>
+            <h2 className="text-[1.8rem] md:text-[2.5rem] text-[#0b1120] mt-[10px] md:mt-0 mb-[5px] md:mb-[20px]">
+              {categorySlides[activeSlide].title}
+            </h2>
+            <p className="text-[1.1rem] leading-[1.6] text-[#333333] mb-[15px] md:mb-[30px]">
+              {categorySlides[activeSlide].description}
+            </p>
           </div>
 
-          <div className="category-icon-grid">
+          <div className="flex gap-[30px] my-[10px] md:my-[30px]">
             {categorySlides[activeSlide].features.map((feature, index) => {
-              // React requires component variables to start with a capital letter
               const IconComponent = feature.icon;
-
               return (
-                <div key={index} className="icon-wrapper">
-                  <IconComponent className="slider-icon" />
-                  <p>{feature.text}</p>
+                <div
+                  key={index}
+                  className="flex flex-col items-center text-center"
+                >
+                  <IconComponent className="text-[2rem] text-brandOrange mb-[10px]" />
+                  <p className="text-[0.85rem] font-semibold text-[#0b1120] m-0">
+                    {feature.text}
+                  </p>
                 </div>
               );
             })}
           </div>
 
-          <Link to="/shop" className="secondary-button">
+          <Link
+            to="/shop"
+            className="inline-block px-[20px] py-[10px] bg-brandOrange text-white font-bold rounded-[5px] hover:scale-105 transition-transform duration-200 w-fit"
+          >
             {categorySlides[activeSlide].buttonText}
           </Link>
 
           {/* NAVIGATION DOTS */}
-          <div className="nav-dots-wrapper">
+          <div className="absolute right-[15px] md:right-[30px] top-[50%] -translate-y-1/2 md:transform-none md:scale-100 scale-80 flex flex-col gap-[15px] z-20">
             {categorySlides.map((slide, index) => (
               <div
                 key={index}
-                className={`nav-dot ${activeSlide === index ? "active" : ""}`}
+                className={`w-[12px] h-[12px] rounded-full cursor-pointer transition-colors duration-300 ${activeSlide === index ? "bg-[#0b1120] scale-125" : "bg-[#cbd5e1]"}`}
                 onClick={() => handleDotClick(index)}
               ></div>
             ))}
           </div>
         </div>
 
-        <div className="category-image-panel">
+        <div className="flex-1 h-full flex flex-col overflow-y-auto snap-y snap-mandatory no-scrollbar">
           {categorySlides.map((slide, index) => (
             <img
               key={index}
               src={slide.image}
               alt={slide.title}
-              className="slider-image"
+              className="w-full h-[65vh] md:h-[100vh] object-contain snap-start shrink-0"
               ref={(el) => (imageRefs.current[index] = el)}
               data-index={index}
             />
@@ -203,8 +220,10 @@ const Home = () => {
       </section>
 
       {/* ---------------------------- REVIEW CAROUSEL ---------------------------- */}
-      <section className="reviews-section">
-        <h2>What Adventurers Say</h2>
+      <section className="bg-[#183855] py-[80px] px-[50px]">
+        <h2 className="text-white text-center mb-[40px] text-[2rem] font-bold">
+          What Adventurers Say
+        </h2>
         <ReviewCarousel reviews={customerReviews} />
       </section>
     </div>
