@@ -1,0 +1,27 @@
+export const customerReviews = [
+  { 
+    text: "The titanium spork is a game changer. Super light and actually durable enough for digging through frozen meals.", 
+    author: "Alex K.", 
+    date: "1 week ago",
+    useDynamicAvatar: true 
+  },
+  { 
+    text: "Best headlamp I've owned. The red light mode is perfect for reading in the tent without waking up the kids.", 
+    author: "Sarah W.", 
+    date: "3 weeks ago",
+    useDynamicAvatar: true 
+  },
+  { text: "My compass only points south, but it looks cool so I can't complain.", author: "Jack S.", date: "3 weeks ago" },
+  { text: "The 4-man tent is a bit snug for four adults, but for a couple and a dog, it’s absolute luxury. Zero leaks.", author: "Marcus D.", date: "1 month ago" },
+  { text: "Stove boiled water in under 3 minutes even with the wind howling. Very impressed with the fuel efficiency.", author: "Elena R.", date: "2 months ago" },
+  { text: "This tent survived a hurricane.", author: "Bear G.", date: "2 months ago" },
+  { text: "Finally, a sleeping pad that doesn't make me feel like I'm lying on a bag of potato chips. Quiet and comfy.", author: "Jordan P.", date: "2 months ago" },
+  { text: "The portable power bank charged my phone four times and still had juice left for my camera. Essential kit.", author: "Riley M.", date: "3 months ago" },
+  { text: "Solid trekking poles. They saved my knees on the descent from Scafell Pike. The cork grips are worth the extra money.", author: "Tom H.", date: "4 months ago" },
+  { text: "Incredible thermal retention on the flask. My coffee was still steaming 10 hours into the hike.", author: "Nora G.", date: "5 months ago" },
+  { text: "The waterproof matches actually work after being submerged. Don't ask how I know, just buy them.", author: "Ben J.", date: "5 months ago" },
+  { text: "Warmest sleeping bag ever.", author: "Yeti", date: "6 months ago" },
+  { text: "Lightweight and packs down to nothing. This rain shell kept me bone dry during a Highlands downpour.", author: "Chloe S.", date: "6 months ago" },
+  { text: "The multi-tool has everything you need and nothing you don't. The blade stays sharp forever.", author: "David L.", date: "8 months ago" },
+  { text: "Great value for money. It's rare to find gear this high-quality that doesn't cost a whole month's salary.", author: "Emma B.", date: "9 months ago" },
+];
