@@ -53,6 +53,9 @@ const Shop = ({ addToKit, toggleCampfire, campfireList = [] }: ShopProps) => {
       return 0;
     });
 
+  {
+    /* --- LOADING SCREEN --- */
+  }
   if (isLoading) {
     return (
       <div className="overflow-x-hidden bg-[#183855] pb-20">
@@ -75,6 +78,9 @@ const Shop = ({ addToKit, toggleCampfire, campfireList = [] }: ShopProps) => {
     );
   }
 
+  {
+    /* --- MAIN SCREEN --- */
+  }
   return (
     <div className="overflow-x-hidden bg-[#183855] pb-20">
       {/* --- BANNER --- */}
